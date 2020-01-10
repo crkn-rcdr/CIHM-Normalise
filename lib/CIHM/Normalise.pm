@@ -6,17 +6,17 @@ CIHM::Normalise - some string normalisation functions
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 AUTHOR
 
-Sascha Adler, C<< <sascha.adler at canadiana.ca> >>
-Russell McOrmond, C<< <russell.mcormond at canadiana.ca> >>
-Julienne Pascoe, C<< <julienne.pascoe at canadiana.ca> >>
+William Wueppelmann, C<< <wwueppelmann at crkn.ca> >>
+Sascha Adler, C<< <sadler at crkn.ca> >>
+Russell McOrmond, C<< <rmcormond at crkn.ca> >>
 
 =head1 BUGS
 
@@ -55,6 +55,7 @@ sub iso8601
     my($date, $max) = @_;
     my $template = "0001-01-01T00:00:00.000Z";
     $template = "9999-12-31T23:59:59.999Z" if ($max);
+    my $indate = $date;
 
     # If we already have an unambiguous ISO-8601 date, don't mess around
     # with it. The following formats should be accepted:
@@ -83,7 +84,7 @@ sub iso8601
     }
 
     # Remove some characters that we never want to see
-    $date =~ s/[\[\]\.\`_]//g;
+    $date =~ s/[\[\]\.\`_\?]//g;
 
     # Anything that contains a string of 5 or more digits is likely to
     # return garbage results, so we won't try to parse it.
@@ -322,7 +323,7 @@ sub iso8601
         return $1 . substr($template, length($1));
     }
 
-    warn("iso8601: null date for $date\n") if ($DEBUG || $FAILED);
+    warn("iso8601: null date for \"$indate\" modified to \"$date\"\n") if ($DEBUG || $FAILED);
     return "";
     #return $date;
 }
