@@ -31,6 +31,7 @@ automatically be notified of progress on your bug as we make changes.
 use strict;
 use warnings;
 no if $] >= 5.018, warnings => "experimental";
+no warnings( 'uninitialized', 'substr' );
 use Date::Manip;
 use feature qw(switch);
 use Exporter qw(import);
@@ -1379,10 +1380,6 @@ sub normalise_lang {
     }
 
     $lang =~ s/^ +//;
-    #s/ +$//;
-    #s/\s+/ /g;
-
-    # warn("[CMR.pm DEBUG] Leftover <lang> fragments: $_\n") if ($DEBUG && $_);
     return sort( keys(%codes) );
 }
 
